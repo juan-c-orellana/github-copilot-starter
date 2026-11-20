@@ -1,5 +1,6 @@
 import styles from './SudokuGame.module.css';
 import SudokuCell from './SudokuCell.jsx';
+import { hasConflict } from '../game/sudoku.js';
 
 const SudokuBoard = ({ game, board, checked, onCellChange }) => (
     <div className={styles.board} role="group" aria-label="Sudoku board">
@@ -8,7 +9,10 @@ const SudokuBoard = ({ game, board, checked, onCellChange }) => (
                 {row.map((value, colIndex) => (
                     <SudokuCell
                         col={colIndex}
-                        isIncorrect={checked && value !== game.solution[rowIndex][colIndex]}
+                        isInvalid={
+                            (checked && value !== game.solution[rowIndex][colIndex]) ||
+                            hasConflict(board, rowIndex, colIndex)
+                        }
                         isPrefilled={game.puzzle[rowIndex][colIndex] !== 0}
                         key={`${rowIndex}-${colIndex}`}
                         onChange={onCellChange}

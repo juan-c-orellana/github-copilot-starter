@@ -11,12 +11,13 @@ const copyBoard = (board) => board.map((row) => [...row]);
 const SudokuGame = () => {
     const [game, setGame] = useState(null);
     const [board, setBoard] = useState(null);
+    const [difficulty, setDifficulty] = useState('easy');
     const [checked, setChecked] = useState(false);
     const [feedback, setFeedback] = useState(null);
 
     const handleNewGame = useCallback(() => {
         try {
-            const nextGame = createPuzzle();
+            const nextGame = createPuzzle(difficulty);
             setGame(nextGame);
             setBoard(copyBoard(nextGame.puzzle));
             setChecked(false);
@@ -28,7 +29,7 @@ const SudokuGame = () => {
                 type: 'error',
             });
         }
-    }, []);
+    }, [difficulty]);
 
     useEffect(() => {
         const timeoutId = window.setTimeout(handleNewGame, 0);
@@ -36,15 +37,18 @@ const SudokuGame = () => {
     }, [handleNewGame]);
 
     const handleCellChange = (rowIndex, colIndex, value) => {
-        setBoard((currentBoard) =>
-            currentBoard.map((row, currentRowIndex) =>
-                currentRowIndex === rowIndex
-                    ? row.map((cell, currentColIndex) =>
-                          currentColIndex === colIndex ? (value ? Number(value) : 0) : cell,
-                      )
-                    : row,
-            ),
-        );
+        const nextBoard = copyBoard(board);
+        nextBoard[rowIndex][colIndex] = value ? Number(value) : 0;
+        setBoard(nextBoard);
+        setFeedback((currentFeedback) => {
+            if (isPuzzleSolved(nextBoard, game.solution)) {
+                return {
+                    message: 'Congratulations! You solved it!',
+                    type: 'success',
+                };
+            }
+            return currentFeedback?.type === 'success' ? null : currentFeedback;
+        });
     };
 
     const handleCheckSolution = () => {
@@ -88,6 +92,8 @@ const SudokuGame = () => {
                 onCellChange={handleCellChange}
             />
             <GameControls
+                difficulty={difficulty}
+                onDifficultyChange={setDifficulty}
                 onCheckSolution={handleCheckSolution}
                 onNewGame={handleNewGame}
             />

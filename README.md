@@ -32,6 +32,10 @@ npm run dev
 
 Run the automated tests with `npm test` and lint with `npm run lint`.
 
+## Sudoku difficulty
+
+Each generated puzzle is checked with a backtracking solver that stops after finding two solutions; a puzzle is returned only when exactly one solution remains. Difficulty sets the exact number of prefilled, locked clues: Easy has 40, Medium has 32, and Hard has 26. Choose a difficulty and select **New Game** to start a puzzle at that level. Conflicting entries in the same row, column, or 3-by-3 box are highlighted immediately.
+
 ## Project Instructions
 
 Use GitHub Copilot to refactor the code for this game to use React, NextJS, and ES6+ features. The goal is to create a more modern and maintainable codebase and add additional functionality to the final product. You can use any combination of code completion and chat features, like Ask, Edit, or Agent modes.

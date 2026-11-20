@@ -1,10 +1,10 @@
 import styles from './SudokuGame.module.css';
 
-const SudokuCell = ({ row, col, value, isPrefilled, isIncorrect, onChange }) => {
+const SudokuCell = ({ row, col, value, isPrefilled, isInvalid, onChange }) => {
     const className = [
         styles.cell,
         isPrefilled && styles.prefilled,
-        isIncorrect && styles.incorrect,
+        isInvalid && styles.incorrect,
     ]
         .filter(Boolean)
         .join(' ');
@@ -16,7 +16,7 @@ const SudokuCell = ({ row, col, value, isPrefilled, isIncorrect, onChange }) => 
 
     return (
         <input
-            aria-invalid={isIncorrect}
+            aria-invalid={isInvalid}
             aria-label={`Row ${row + 1}, column ${col + 1}`}
             autoComplete="off"
             className={className}

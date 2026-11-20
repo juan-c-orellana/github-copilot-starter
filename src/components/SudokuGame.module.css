@@ -70,6 +70,28 @@
     margin: 20px auto 0;
 }
 
+.difficultyControl {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 8px 12px;
+    font-size: 16px;
+}
+
+.difficultyControl select {
+    padding: 7px 10px;
+    border: 1px solid #777;
+    border-radius: 4px;
+    background: #fff;
+    color: #222;
+    font: inherit;
+}
+
+.difficultyControl select:focus-visible {
+    outline: 3px solid #0d47a1;
+    outline-offset: 3px;
+}
+
 .controls button {
     margin: 0 8px;
     padding: 8px 18px;
