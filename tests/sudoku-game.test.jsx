@@ -64,6 +64,33 @@ describe('Sudoku game interface', () => {
         expect(screen.getByRole('combobox', { name: 'Difficulty' })).toHaveValue('easy');
     });
 
+    test('alternates the surface tint across complete 3-by-3 boxes', async () => {
+        await renderGame(createGameFixture());
+
+        const cells = getCells();
+        const boxTones = [0, 3, 6].map((boxRow) =>
+            [0, 3, 6].map((boxCol) => {
+                const firstCell = cells[boxRow * 9 + boxCol];
+                const isAlternate = firstCell.className.includes('alternateBox');
+
+                for (let rowOffset = 0; rowOffset < 3; rowOffset += 1) {
+                    for (let colOffset = 0; colOffset < 3; colOffset += 1) {
+                        const cell = cells[(boxRow + rowOffset) * 9 + boxCol + colOffset];
+                        expect(cell.className.includes('alternateBox')).toBe(isAlternate);
+                    }
+                }
+
+                return isAlternate;
+            }),
+        );
+
+        expect(boxTones).toEqual([
+            [true, false, true],
+            [false, true, false],
+            [true, false, true],
+        ]);
+    });
+
     test('keeps the current game until New Game uses the selected difficulty', async () => {
         await renderGame(createGameFixture());
         const editableCell = screen.getByRole('textbox', { name: 'Row 1, column 1' });

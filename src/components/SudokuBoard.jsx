@@ -9,6 +9,9 @@ const SudokuBoard = ({ game, board, checked, completed, hintedCells, onCellChang
                 {row.map((value, colIndex) => (
                     <SudokuCell
                         col={colIndex}
+                        isAlternateBox={
+                            (Math.floor(rowIndex / 3) + Math.floor(colIndex / 3)) % 2 === 0
+                        }
                         isInvalid={
                             (checked && value !== game.solution[rowIndex][colIndex]) ||
                             hasConflict(board, rowIndex, colIndex)

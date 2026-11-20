@@ -22,3 +22,5 @@ Run `npm test`, `npm run lint`, and `npm run build`. In the browser at `localhos
 ## Risks
 
 Alternating box treatments must remain visible in both themes without obscuring prefilled, hinted, invalid, or focused cell states. Narrow layouts must keep all controls available, avoid page-level horizontal overflow, and preserve readable leaderboard content and keyboard focus.
+
+Thin grid lines must also remain distinguishable from every cell-state surface in both themes, including the alternating overlay. Respect reduced-motion preferences for state transitions.

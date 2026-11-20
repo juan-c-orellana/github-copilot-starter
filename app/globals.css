@@ -4,9 +4,10 @@
     --text-color: #333;
     --surface-color: #fff;
     --board-border: #333;
-    --grid-border: #bbb;
+    --grid-border: #666;
     --cell-background: #fafafa;
     --cell-text: #222;
+    --box-alternate-overlay: rgb(0 0 0 / 8%);
     --clue-background: #e0e0e0;
     --clue-text: #333;
     --invalid-background: #ffcdd2;
@@ -27,9 +28,10 @@
     --text-color: #e5e7eb;
     --surface-color: #1f2937;
     --board-border: #9ca3af;
-    --grid-border: #4b5563;
+    --grid-border: #b6bec9;
     --cell-background: #1f2937;
     --cell-text: #f9fafb;
+    --box-alternate-overlay: rgb(255 255 255 / 8%);
     --clue-background: #374151;
     --clue-text: #f9fafb;
     --invalid-background: #7f1d1d;

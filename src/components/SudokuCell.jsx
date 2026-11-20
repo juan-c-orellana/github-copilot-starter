@@ -4,6 +4,7 @@ const SudokuCell = ({
     row,
     col,
     value,
+    isAlternateBox,
     isPrefilled,
     isHinted,
     isDisabled,
@@ -12,6 +13,7 @@ const SudokuCell = ({
 }) => {
     const className = [
         styles.cell,
+        isAlternateBox && styles.alternateBox,
         isPrefilled && styles.prefilled,
         isHinted && styles.hinted,
         isInvalid && styles.incorrect,

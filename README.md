@@ -40,6 +40,8 @@ Each generated puzzle is checked with a backtracking solver that stops after fin
 
 **Hint** fills and locks one empty or incorrect cell with its correct value, and the game tracks hints used. **Check Solution** highlights entries that do not match the solution. A timer starts with each puzzle and stops when it is solved. On completion, enter a name to save the time, difficulty, and hint count to the Top 10 leaderboard in localStorage; scores are ordered by fastest time, then player name. Corrupt or unavailable leaderboard storage does not prevent a game from starting. Use the theme button to switch between light and dark modes.
 
+The board alternates subtle surfaces between 3×3 boxes in both themes. The board, controls, and leaderboard adapt to narrow screens while keeping all game actions available.
+
 ## Project Instructions
 
 Use GitHub Copilot to refactor the code for this game to use React, NextJS, and ES6+ features. The goal is to create a more modern and maintainable codebase and add additional functionality to the final product. You can use any combination of code completion and chat features, like Ask, Edit, or Agent modes.
