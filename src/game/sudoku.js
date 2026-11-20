@@ -14,32 +14,7 @@ const copyBoard = (board) => board.map((row) => [...row]);
 const createEmptyBoard = () =>
     Array.from({ length: SIZE }, () => Array(SIZE).fill(EMPTY));
 
-const isSafe = (board, row, col, number) => {
-    for (let index = 0; index < SIZE; index += 1) {
-        if (board[row][index] === number || board[index][col] === number) {
-            return false;
-        }
-    }
-
-    const startRow = row - (row % 3);
-    const startCol = col - (col % 3);
-    for (let rowOffset = 0; rowOffset < 3; rowOffset += 1) {
-        for (let colOffset = 0; colOffset < 3; colOffset += 1) {
-            if (board[startRow + rowOffset][startCol + colOffset] === number) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-};
-
-export const hasConflict = (board, row, col) => {
-    const value = board[row][col];
-    if (value === EMPTY) {
-        return false;
-    }
-
+const hasPeerConflict = (board, row, col, value) => {
     for (let index = 0; index < SIZE; index += 1) {
         if (
             (index !== col && board[row][index] === value) ||
@@ -66,6 +41,13 @@ export const hasConflict = (board, row, col) => {
 
     return false;
 };
+
+const isSafe = (board, row, col, number) =>
+    !hasPeerConflict(board, row, col, number);
+
+export const hasConflict = (board, row, col) =>
+    board[row][col] !== EMPTY &&
+    hasPeerConflict(board, row, col, board[row][col]);
 
 const validateBoard = (board) => {
     if (
