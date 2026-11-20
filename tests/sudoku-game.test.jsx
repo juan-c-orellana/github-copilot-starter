@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import SudokuPageError from '../app/error.jsx';
 import SudokuGame from '../src/components/SudokuGame.jsx';
 import { createPuzzle } from '../src/game/sudoku.js';
@@ -60,12 +60,21 @@ describe('Sudoku game interface', () => {
         expect(screen.getByRole('combobox', { name: 'Difficulty' })).toHaveValue('easy');
     });
 
-    test('starts a new game with the selected difficulty', async () => {
-        await renderGame();
+    test('keeps the current game until New Game uses the selected difficulty', async () => {
+        await renderGame(createGameFixture());
+        const editableCell = screen.getByRole('textbox', { name: 'Row 1, column 1' });
+        fireEvent.change(editableCell, { target: { value: '2' } });
+        createPuzzle.mockClear();
 
         fireEvent.change(screen.getByRole('combobox', { name: 'Difficulty' }), {
             target: { value: 'hard' },
         });
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 10));
+        });
+        expect(editableCell).toHaveValue('2');
+        expect(createPuzzle).not.toHaveBeenCalled();
+
         fireEvent.click(screen.getByRole('button', { name: 'New Game' }));
 
         expect(createPuzzle).toHaveBeenLastCalledWith('hard');

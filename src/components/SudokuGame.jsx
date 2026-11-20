@@ -32,9 +32,13 @@ const SudokuGame = () => {
     }, [difficulty]);
 
     useEffect(() => {
+        if (game) {
+            return undefined;
+        }
+
         const timeoutId = window.setTimeout(handleNewGame, 0);
         return () => window.clearTimeout(timeoutId);
-    }, [handleNewGame]);
+    }, [game, handleNewGame]);
 
     const handleCellChange = (rowIndex, colIndex, value) => {
         const nextBoard = copyBoard(board);

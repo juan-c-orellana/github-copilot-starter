@@ -182,14 +182,9 @@ const fillBoard = (board, budget) => {
                 continue;
             }
 
-            const candidates = Array.from({ length: SIZE }, (_, index) => index + 1);
-            for (let index = candidates.length - 1; index > 0; index -= 1) {
-                const randomIndex = Math.floor(Math.random() * (index + 1));
-                [candidates[index], candidates[randomIndex]] = [
-                    candidates[randomIndex],
-                    candidates[index],
-                ];
-            }
+            const candidates = shuffle(
+                Array.from({ length: SIZE }, (_, index) => index + 1),
+            );
 
             for (const candidate of candidates) {
                 if (isSafe(board, row, col, candidate)) {
