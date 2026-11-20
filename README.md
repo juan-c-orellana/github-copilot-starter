@@ -23,6 +23,10 @@ cd <<name of your forked repo>>
 # Open index.html in your browser
 ```
 
+## Testing
+
+Install the development dependencies with `npm install`, then run the baseline tests with `npm test`.
+
 ## Project Instructions
 
 Use GitHub Copilot to refactor the code for this game to use React, NextJS, and ES6+ features. The goal is to create a more modern and maintainable codebase and add additional functionality to the final product. You can use any combination of code completion and chat features, like Ask, Edit, or Agent modes.

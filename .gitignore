@@ -5,6 +5,10 @@ Thumbs.db
 *.swp
 *.swo
 
+# Node.js
+node_modules/
+coverage/
+
 # IDE/Editor Files
 .vscode/
 .idea/
