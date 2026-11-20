@@ -1,9 +1,19 @@
 import styles from './SudokuGame.module.css';
 
-const SudokuCell = ({ row, col, value, isPrefilled, isInvalid, onChange }) => {
+const SudokuCell = ({
+    row,
+    col,
+    value,
+    isPrefilled,
+    isHinted,
+    isDisabled,
+    isInvalid,
+    onChange,
+}) => {
     const className = [
         styles.cell,
         isPrefilled && styles.prefilled,
+        isHinted && styles.hinted,
         isInvalid && styles.incorrect,
     ]
         .filter(Boolean)
@@ -20,7 +30,7 @@ const SudokuCell = ({ row, col, value, isPrefilled, isInvalid, onChange }) => {
             aria-label={`Row ${row + 1}, column ${col + 1}`}
             autoComplete="off"
             className={className}
-            disabled={isPrefilled}
+            disabled={isDisabled}
             inputMode="numeric"
             maxLength={1}
             onChange={handleChange}

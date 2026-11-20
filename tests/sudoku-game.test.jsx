@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import SudokuPageError from '../app/error.jsx';
 import SudokuGame from '../src/components/SudokuGame.jsx';
+import { loadLeaderboard } from '../src/game/leaderboard.js';
 import { createPuzzle } from '../src/game/sudoku.js';
 
 jest.mock('../src/game/sudoku.js', () => {
@@ -43,7 +44,10 @@ const renderGame = async (fixture) => {
 };
 
 afterEach(() => {
+    jest.useRealTimers();
     jest.restoreAllMocks();
+    window.localStorage.clear();
+    delete document.documentElement.dataset.theme;
 });
 
 describe('Sudoku game interface', () => {
@@ -93,6 +97,93 @@ describe('Sudoku game interface', () => {
     });
 
     test.each([
+        ['an empty', ''],
+        ['an incorrect', '9'],
+    ])('uses one hint to fill and lock %s cell', async (_description, initialValue) => {
+        await renderGame(createGameFixture([[0, 0], [0, 1]]));
+        const hintedCell = screen.getByRole('textbox', { name: 'Row 1, column 1' });
+        if (initialValue) {
+            fireEvent.change(hintedCell, { target: { value: initialValue } });
+        }
+
+        fireEvent.click(screen.getByRole('button', { name: 'Hint' }));
+
+        expect(hintedCell).toHaveValue('1');
+        expect(hintedCell).toBeDisabled();
+        expect(screen.getByText('Hints used: 1')).toBeInTheDocument();
+        expect(screen.getByRole('textbox', { name: 'Row 1, column 2' })).toBeEnabled();
+    });
+
+    test('starts and resets the timer for each game, then stops it on completion', () => {
+        const fixture = createGameFixture();
+        createPuzzle.mockImplementationOnce(() => fixture);
+        jest.useFakeTimers();
+        render(<SudokuGame />);
+        act(() => {
+            jest.advanceTimersByTime(0);
+        });
+
+        expect(screen.getByRole('timer')).toHaveTextContent('00:00');
+        act(() => {
+            jest.advanceTimersByTime(3000);
+        });
+        expect(screen.getByRole('timer')).toHaveTextContent('00:03');
+
+        fireEvent.change(screen.getByRole('textbox', { name: 'Row 1, column 1' }), {
+            target: { value: '1' },
+        });
+        expect(screen.getByRole('timer')).toHaveTextContent('00:03');
+        act(() => {
+            jest.advanceTimersByTime(5000);
+        });
+        expect(screen.getByRole('timer')).toHaveTextContent('00:03');
+
+        fireEvent.click(screen.getByRole('button', { name: 'New Game' }));
+        expect(screen.getByRole('timer')).toHaveTextContent('00:00');
+        act(() => {
+            jest.advanceTimersByTime(2000);
+        });
+        expect(screen.getByRole('timer')).toHaveTextContent('00:02');
+    });
+
+    test('saves a completed score and displays it in the leaderboard', async () => {
+        await renderGame(createGameFixture([[0, 0], [0, 1]]));
+
+        fireEvent.click(screen.getByRole('button', { name: 'Hint' }));
+        fireEvent.change(screen.getByRole('textbox', { name: 'Row 1, column 2' }), {
+            target: { value: '2' },
+        });
+        fireEvent.change(screen.getByLabelText('Your name for the Top 10'), {
+            target: { value: 'Ada' },
+        });
+        fireEvent.click(screen.getByRole('button', { name: 'Save Score' }));
+
+        expect(screen.getByRole('table', { name: 'Top 10 scores' })).toHaveTextContent(
+            'Ada',
+        );
+        expect(loadLeaderboard()[0]).toMatchObject({
+            name: 'Ada',
+            time: 0,
+            difficulty: 'easy',
+            hintsUsed: 1,
+        });
+    });
+
+    test('toggles between light and dark themes', async () => {
+        await renderGame(createGameFixture());
+
+        fireEvent.click(screen.getByRole('button', { name: 'Switch to dark mode' }));
+        expect(document.documentElement.dataset.theme).toBe('dark');
+        expect(screen.getByRole('button', { name: 'Switch to light mode' })).toHaveAttribute(
+            'aria-pressed',
+            'true',
+        );
+
+        fireEvent.click(screen.getByRole('button', { name: 'Switch to light mode' }));
+        expect(document.documentElement.dataset.theme).toBe('light');
+    });
+
+    test.each([
         ['row', 0, 1, '2'],
         ['column', 1, 0, '4'],
         ['3-by-3 box', 1, 1, '5'],
@@ -115,15 +206,18 @@ describe('Sudoku game interface', () => {
         });
 
         expect(screen.getByRole('status')).toHaveTextContent(
-            'Congratulations! You solved it!',
+            'Congratulations! You solved it in',
         );
     });
 
     test('checks the untouched puzzle and New Game clears the feedback', async () => {
         await renderGame();
+        const emptyCell = getCells().find((cell) => !cell.disabled);
+        expect(emptyCell).toHaveAttribute('aria-invalid', 'false');
 
         fireEvent.click(screen.getByRole('button', { name: 'Check Solution' }));
         expect(screen.getByRole('status')).toHaveTextContent('Some cells are incorrect.');
+        expect(emptyCell).toHaveAttribute('aria-invalid', 'true');
         expect(document.querySelector('[aria-invalid="true"]')).toBeInTheDocument();
 
         fireEvent.click(screen.getByRole('button', { name: 'New Game' }));
@@ -131,6 +225,25 @@ describe('Sudoku game interface', () => {
         expect(document.querySelector('[aria-invalid="true"]')).not.toBeInTheDocument();
         expect(getCells()).toHaveLength(81);
         expect(getCells().filter((cell) => cell.disabled)).toHaveLength(40);
+    });
+
+    test('Check Solution highlights a wrong entry without a move conflict', async () => {
+        await renderGame(
+            createGameFixture([
+                [0, 0],
+                [0, 1],
+                [3, 0],
+                [3, 1],
+            ]),
+        );
+        const cell = screen.getByRole('textbox', { name: 'Row 1, column 1' });
+        fireEvent.change(cell, { target: { value: '2' } });
+        expect(cell).toHaveAttribute('aria-invalid', 'false');
+
+        fireEvent.click(screen.getByRole('button', { name: 'Check Solution' }));
+
+        expect(cell).toHaveAttribute('aria-invalid', 'true');
+        expect(screen.getByRole('status')).toHaveTextContent('Some cells are incorrect.');
     });
 
     test('keeps the current board and shows recovery guidance if New Game fails', async () => {

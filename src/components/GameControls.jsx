@@ -2,9 +2,14 @@ import styles from './SudokuGame.module.css';
 
 const GameControls = ({
     difficulty,
+    hintsUsed,
+    isCompleted,
+    onHint,
     onDifficultyChange,
     onNewGame,
     onCheckSolution,
+    onToggleTheme,
+    theme,
 }) => (
     <div className={styles.controls}>
         <label className={styles.difficultyControl}>
@@ -18,11 +23,24 @@ const GameControls = ({
                 <option value="hard">Hard</option>
             </select>
         </label>
+        <button disabled={isCompleted} onClick={onHint} type="button">
+            Hint
+        </button>
+        <span aria-label="Hints used" className={styles.hintCount}>
+            Hints used: {hintsUsed}
+        </span>
         <button onClick={onNewGame} type="button">
             New Game
         </button>
         <button onClick={onCheckSolution} type="button">
             Check Solution
+        </button>
+        <button
+            aria-pressed={theme === 'dark'}
+            onClick={onToggleTheme}
+            type="button"
+        >
+            Switch to {theme === 'dark' ? 'light' : 'dark'} mode
         </button>
     </div>
 );
