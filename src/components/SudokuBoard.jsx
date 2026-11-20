@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from '../App.module.css';
+import styles from './SudokuGame.module.css';
 import SudokuCell from './SudokuCell.jsx';
 
 const SudokuBoard = ({ game, board, checked, onCellChange }) => (

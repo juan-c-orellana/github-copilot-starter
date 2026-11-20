@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from '../App.module.css';
+import styles from './SudokuGame.module.css';
 
 const SudokuCell = ({ row, col, value, isPrefilled, isIncorrect, onChange }) => {
     const className = [

@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from '../App.module.css';
+import styles from './SudokuGame.module.css';
 
 const GameControls = ({ onNewGame, onCheckSolution }) => (
     <div className={styles.controls}>

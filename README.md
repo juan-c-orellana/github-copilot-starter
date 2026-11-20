@@ -8,7 +8,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Dependencies
 
-- Node.js 20.19 or newer
+- Node.js 20.9 or newer
 - Modern web browser (Chrome, Firefox, Edge, etc.)
 
 ### Installation
@@ -22,9 +22,15 @@ npm install
 npm run dev
 ```
 
+## Commands
+
+- `npm run dev` starts the Next.js development server.
+- `npm run build` creates a production build.
+- `npm start` serves the production build.
+
 ## Testing
 
-Run the automated tests with `npm test`. Create a production build with `npm run build`.
+Run the automated tests with `npm test` and lint with `npm run lint`.
 
 ## Project Instructions
 
@@ -50,7 +56,7 @@ Use GitHub Copilot to refactor the code for this game to use React, NextJS, and 
 ## Built With
 
 - [React](https://react.dev/) - Interactive game interface
-- [Vite](https://vite.dev/) - Development server and production build
+- [Next.js](https://nextjs.org/) - App Router, development server, and production build
 - [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) - Markup for the game interface
 - [CSS Modules](https://github.com/css-modules/css-modules) - Scoped styling for the game board and controls
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Game logic and board generation

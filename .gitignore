@@ -8,7 +8,9 @@ Thumbs.db
 # Node.js
 node_modules/
 coverage/
-dist/
+.next/
+out/
+.vercel/
 
 # IDE/Editor Files
 .vscode/
