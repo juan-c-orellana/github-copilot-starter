@@ -8,24 +8,23 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Dependencies
 
+- Node.js 20.19 or newer
 - Modern web browser (Chrome, Firefox, Edge, etc.)
-- No additional dependencies required
 
 ### Installation
 
 1. Fork this repository to your GitHub account. Use the "Fork" button on the top right corner of the repository page.
 2. Clone your forked repository to your local machine.
-3. Open the `index.html` file in your preferred web browser.
+3. Install dependencies and start the development server.
 
-```bash
-git clone https://github.com/your-username/<<name of your forked repo>>.git
-cd <<name of your forked repo>>
-# Open index.html in your browser
+```powershell
+npm install
+npm run dev
 ```
 
 ## Testing
 
-Install the development dependencies with `npm install`, then run the baseline tests with `npm test`.
+Run the automated tests with `npm test`. Create a production build with `npm run build`.
 
 ## Project Instructions
 
@@ -50,8 +49,10 @@ Use GitHub Copilot to refactor the code for this game to use React, NextJS, and 
 
 ## Built With
 
+- [React](https://react.dev/) - Interactive game interface
+- [Vite](https://vite.dev/) - Development server and production build
 - [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) - Markup for the game interface
-- [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) - Styling for the game board and controls
+- [CSS Modules](https://github.com/css-modules/css-modules) - Scoped styling for the game board and controls
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Game logic and board generation
 
 ## License
