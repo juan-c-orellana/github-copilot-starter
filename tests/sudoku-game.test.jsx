@@ -110,6 +110,7 @@ describe('Sudoku game interface', () => {
 
         expect(hintedCell).toHaveValue('1');
         expect(hintedCell).toBeDisabled();
+        expect(hintedCell).toHaveAccessibleName('Row 1, column 1, filled by hint');
         expect(screen.getByText('Hints used: 1')).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: 'Row 1, column 2' })).toBeEnabled();
     });

@@ -27,7 +27,7 @@ const SudokuCell = ({
     return (
         <input
             aria-invalid={isInvalid}
-            aria-label={`Row ${row + 1}, column ${col + 1}`}
+            aria-label={`Row ${row + 1}, column ${col + 1}${isHinted ? ', filled by hint' : ''}`}
             autoComplete="off"
             className={className}
             disabled={isDisabled}

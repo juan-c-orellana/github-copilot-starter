@@ -51,6 +51,8 @@
     background: var(--hint-background);
     color: var(--hint-text);
     font-weight: bold;
+    outline: 2px dashed var(--hint-text);
+    outline-offset: -4px;
 }
 
 .cell:disabled {
