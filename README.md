@@ -8,20 +8,39 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ### Dependencies
 
+- Node.js 20.9 or newer
 - Modern web browser (Chrome, Firefox, Edge, etc.)
-- No additional dependencies required
 
 ### Installation
 
 1. Fork this repository to your GitHub account. Use the "Fork" button on the top right corner of the repository page.
 2. Clone your forked repository to your local machine.
-3. Open the `index.html` file in your preferred web browser.
+3. Install dependencies and start the development server.
 
-```bash
-git clone https://github.com/your-username/<<name of your forked repo>>.git
-cd <<name of your forked repo>>
-# Open index.html in your browser
+```powershell
+npm install
+npm run dev
 ```
+
+## Commands
+
+- `npm run dev` starts the Next.js development server.
+- `npm run build` creates a production build.
+- `npm start` serves the production build.
+
+## Testing
+
+Run the automated tests with `npm test` and lint with `npm run lint`.
+
+## Sudoku difficulty
+
+Each generated puzzle is checked with a backtracking solver that stops after finding two solutions; a puzzle is returned only when exactly one solution remains. Difficulty sets the exact number of prefilled, locked clues: Easy has 40, Medium has 32, and Hard has 26. Choose a difficulty and select **New Game** to start a puzzle at that level. Conflicting entries in the same row, column, or 3-by-3 box are highlighted immediately.
+
+## Hints, timer, and Top 10
+
+**Hint** fills and locks one empty or incorrect cell with its correct value, and the game tracks hints used. **Check Solution** highlights entries that do not match the solution. A timer starts with each puzzle and stops when it is solved. On completion, enter a name to save the time, difficulty, and hint count to the Top 10 leaderboard in localStorage; scores are ordered by fastest time, then player name. Corrupt or unavailable leaderboard storage does not prevent a game from starting. Use the theme button to switch between light and dark modes.
+
+The board alternates subtle surfaces between 3×3 boxes in both themes. The board, controls, and leaderboard adapt to narrow screens while keeping all game actions available.
 
 ## Project Instructions
 
@@ -46,8 +65,10 @@ Use GitHub Copilot to refactor the code for this game to use React, NextJS, and 
 
 ## Built With
 
+- [React](https://react.dev/) - Interactive game interface
+- [Next.js](https://nextjs.org/) - App Router, development server, and production build
 - [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) - Markup for the game interface
-- [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS) - Styling for the game board and controls
+- [CSS Modules](https://github.com/css-modules/css-modules) - Scoped styling for the game board and controls
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Game logic and board generation
 
 ## License

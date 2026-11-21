@@ -5,6 +5,13 @@ Thumbs.db
 *.swp
 *.swo
 
+# Node.js
+node_modules/
+coverage/
+.next/
+out/
+.vercel/
+
 # IDE/Editor Files
 .vscode/
 .idea/
